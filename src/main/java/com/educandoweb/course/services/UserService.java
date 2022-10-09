@@ -15,21 +15,33 @@ public class UserService {
     @Autowired
     private UserRepository repository;
 
-    public List<User> findAll(){
+    public List<User> findAll() {
         return repository.findAll();
     }
-    public User findById(Long Id){
-       Optional<User> obj= repository.findById(Id);
-       return obj.get();
+
+    public User findById(Long Id) {
+        Optional<User> obj = repository.findById(Id);
+        return obj.get();
     }
 
 
-    public User insert(User obj){
-        return  repository.save(obj);
+    public User insert(User obj) {
+        return repository.save(obj);
     }
 
-    public void delete(Long id){
+    public void delete(Long id) {
         repository.deleteById(id);
     }
 
+    public User update(Long id, User obj) {
+        User entity= repository.getReferenceById(id);
+        updateData(entity,obj);
+        return repository.save(entity);
+    }
+
+    private void updateData(User entity, User obj) {
+        entity.setName(obj.getName());
+        entity.setEmail(obj.getEmail());
+        entity.setPhone(obj.getPhone());
+    }
 }
